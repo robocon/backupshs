@@ -1,7 +1,6 @@
 <?php 
 include 'config.php';
-$dbi = new mysqli(HOST,USER,PASS,DB);
-$dbi->query("SET NAMES UTF8");
+define('PAGE', basename(__FILE__, '.php'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +33,10 @@ include 'menu.php';
     if ($action==='search') {
         
         $searchText = sprintf("%s", $_POST['searchText']);
+        if(empty($searchText)){
+            echo "ไม่พบข้อมูล";
+            exit;
+        }
 
         $q = $dbi->query("SELECT *,CONCAT(`yot`,`name`,' ',`surname`) AS `ptname` 
         FROM `opcard` 
