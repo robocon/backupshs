@@ -17,7 +17,9 @@ define('PAGE', basename(__FILE__, '.php'));
 <?php 
 include 'menu.php';
 ?>
-    <form class="row g-3 mx-3" action="drug.php" method="POST" style="margin-top:1em;">
+</div>
+<div class="container mt-3">
+    <form class="row g-3 mx-3" action="drug.php" method="POST" >
         <div class="col-sm-10">
             <label for="searchText" class="visually-hidden">ค้นหา</label>
             <input type="text" class="form-control" name="searchText" id="searchText" placeholder="ค้นหาจากรหัส/ชื่อทางการค้า/ชื่อสามัญ">
@@ -29,7 +31,6 @@ include 'menu.php';
     </form>
 </div>
 <div class="">
-    
     <?php 
     $action = sprintf("%s", $_POST['action']);
     if ($action==='search') {
@@ -56,8 +57,7 @@ include 'menu.php';
                     <th>ในคลัง</th>
                     <th>สุทธิ</th>
                     <th>packing</th>
-                    <th>ราคา/แพค</th>
-                    <th>(รวม VAT)</th>
+                    <th>ราคา/แพค(รวม VAT)</th>
                     <th>ราคากลาง</th>
                     <th>ราคาทุน</th>
                     <th>รหัสบริษัท</th>
@@ -65,39 +65,33 @@ include 'menu.php';
                     <th>24 หลัก</th>
                     <th>สป<br>สายแพทย์</th>
                 </tr>
-                
-            
             <?php
-
             while ($a = $q->fetch_assoc()) {
                 ?>
                 <tr>
                     <td><?=$a['drugcode'];?></td>
                     <td><?=$a['tradname'];?></td>
                     <td><?=$a['genname'];?></td>
-                    <td>ราคาขาย</td>
+                    <td><?=$a['salepri'];?></td>
                     <td><?=$a['part'];?></td>
-                    <td>ห้องจ่าย</td>
-                    <td>ในคลัง</td>
-                    <td>สุทธิ</td>
-                    <td>packing</td>
-                    <td>ราคา/แพค</td>
-                    <td>(รวม VAT)</td>
-                    <td>ราคากลาง</td>
-                    <td>ราคาทุน</td>
-                    <td>รหัสบริษัท</td>
-                    <td>ชื่อบริษัท</td>
-                    <td>24 หลัก</td>
-                    <td>สป<br>สายแพทย์</td>
+                    <td><?=$a['stock'];?></td>
+                    <td><?=$a['mainstk'];?></td>
+                    <td><?=$a['totalstk'];?></td>
+                    <td><?=$a['pack'];?></td>
+                    <td><?=$a['packpri_vat'];?></td>
+                    <td><?=$a['edpri'];?></td>
+                    <td><?=$a['unitpri'];?></td>
+                    <td><?=$a['comcode'];?></td>
+                    <td><?=$a['comname'];?></td>
+                    <td><?=$a['code24'];?></td>
+                    <td><?=$a['spec'];?></td>
+                    
                 </tr>
                 <?php
             }
-
             ?>
             </table>
             <?php
-
-            
         }
 
     }
