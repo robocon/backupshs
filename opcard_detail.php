@@ -1,6 +1,6 @@
 <?php 
-include 'config.php';
-$hn = sprintf("%s", $_GET['hn']);
+include dirname(__FILE__).'/config.php';
+$hn = sprintf("%s", $dbi->real_escape_string($_GET['hn']));
 
 $sql = "SELECT *,CONCAT(`yot`,`name`,' ',`surname`) AS `ptname` FROM `opcard` WHERE `hn` = '$hn' LIMIT 1 ";
 $q = $dbi->query($sql);

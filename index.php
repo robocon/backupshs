@@ -1,5 +1,5 @@
 <?php 
-include 'config.php';
+include dirname(__FILE__).'/config.php';
 define('PAGE', basename(__FILE__, '.php'));
 ?>
 <!DOCTYPE html>
@@ -29,19 +29,29 @@ include 'menu.php';
         </div>
     </form>
     <?php 
-    $action = sprintf("%s", $_POST['action']);
+    $action = sprintf("%s", $dbi->real_escape_string($_POST['action']));
     if ($action==='search') {
         
-        $searchText = sprintf("%s", $_POST['searchText']);
+        $searchText = sprintf("%s", $dbi->real_escape_string($_POST['searchText']));
         if(empty($searchText)){
             echo "ไม่พบข้อมูล";
             exit;
         }
 
-        $q = $dbi->query("SELECT *,CONCAT(`yot`,`name`,' ',`surname`) AS `ptname` 
+        /**
+         * OR `name` LIKE '%$searchText%'
+         * OR `surname` LIKE '%$searchText%'
+         * OR ( `idcard` LIKE '%$searchText%'   )
+         */
+        $sql = "SELECT *,CONCAT(`yot`,`name`,' ',`surname`) AS `ptname` 
         FROM `opcard` 
-        WHERE `hn` = '$searchText' OR ( `idcard` LIKE '%$searchText%' OR `name` LIKE '%$searchText%' OR `surname` LIKE '%$searchText%' ) 
-        ORDER BY `row_id` DESC");
+        WHERE `hn` = '$searchText' 
+        ORDER BY `row_id` DESC";
+        dump($sql);
+        
+        $q = $dbi->query($sql);
+        dump($q);
+        // exit();
         if ($q->num_rows > 0) {
 
             ?>
